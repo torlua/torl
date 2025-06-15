@@ -18,9 +18,6 @@
       font-family: 'Inter', sans-serif;
       background: #000;
       color: #e1e1e6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       overflow: hidden;
     }
 
@@ -58,6 +55,16 @@
       text-align: center;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
       user-select: none;
+      margin: auto;
+      display: none;
+      animation: fadeIn 1s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+        transform: none;
+      }
     }
 
     .avatar-wrapper {
@@ -117,7 +124,6 @@
     .badge {
       width: 36px;
       height: 36px;
-      background: transparent;
       border-radius: 10px;
       display: flex;
       align-items: center;
@@ -204,9 +210,28 @@
       height: 16px;
       filter: brightness(0) invert(1);
     }
+
+    #enter-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      color: white;
+      font-size: 20px;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
+
+  <div id="enter-screen">click to enter</div>
 
   <video id="background-video" autoplay muted loop playsinline>
     <source src="background.mp4" type="video/mp4" />
@@ -218,7 +243,7 @@
 
   <div id="vignette"></div>
 
-  <main class="profile-card">
+  <main class="profile-card" id="profile-card">
     <div class="avatar-wrapper">
       <img class="avatar" src="https://i.pinimg.com/736x/28/35/24/2835246d8785514767b63ad819905e40.jpg" alt="Profile" />
       <div class="status-badge" title="Online">
@@ -226,7 +251,7 @@
       </div>
     </div>
 
-    <h1 class="username gradient-text">tor</h1>
+    <h1 class="username">tor</h1>
     <h2 class="views">10k+ views</h2>
 
     <div class="badges">
@@ -254,32 +279,26 @@
   </main>
 
   <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const audio = document.getElementById('background-audio');
-      const enableAudio = () => {
-        audio.muted = false;
-        audio.volume = 0.5;
-        audio.play().catch(err => console.log("Autoplay failed:", err));
-        document.removeEventListener('click', enableAudio);
-      };
-      document.addEventListener('click', enableAudio);
+    const enterScreen = document.getElementById("enter-screen");
+    const audio = document.getElementById("background-audio");
+    const profile = document.getElementById("profile-card");
+
+    enterScreen.addEventListener("click", () => {
+      enterScreen.style.display = "none";
+      profile.style.display = "block";
+      audio.muted = false;
+      audio.volume = 0.5;
+      audio.play().catch(console.error);
     });
 
     const titleText = "T O R";
-    let i = 0;
-    let forward = true;
+    let i = 0, forward = true;
     function typeLoop() {
       document.title = titleText.slice(0, i);
       if (forward) {
-        if (i < titleText.length) i++;
-        else {
-          forward = false;
-          setTimeout(typeLoop, 1000);
-          return;
-        }
+        i < titleText.length ? i++ : (forward = false, setTimeout(typeLoop, 1000));
       } else {
-        if (i > 0) i--;
-        else forward = true;
+        i > 0 ? i-- : (forward = true);
       }
       setTimeout(typeLoop, 200);
     }
