@@ -3,145 +3,254 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dashboard</title>
+  <title></title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
-    body {
-      font-family: 'Press Start 2P', monospace;
-      background: linear-gradient(135deg, #5865F2, #EB3B8A);
-      color: white;
-      text-align: center;
-      margin: 2rem;
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    .avatar-container {
+
+    html, body {
+      height: 100%;
+      font-family: 'Press Start 2P', monospace;
+      background: #;
+      color: #e1e1e6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    #background-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      filter: brightness(0.3) contrast(0.8);
+      z-index: -2;
+    }
+
+    #background-audio {
+      display: none;
+    }
+
+    #vignette {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.9) 90%);
+      z-index: -1;
+    }
+
+    .profile-card {
+      background: #000;
+      border-radius: 20px;
+      padding: 36px 48px;
+      max-width: 360px;
+      text-align: center;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      user-select: none;
+    }
+
+    .avatar-wrapper {
       position: relative;
       display: inline-block;
-      margin-bottom: 1rem;
-      z-index: 10;
+      margin-bottom: 24px;
     }
-    .status-dot {
+
+    .avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #444;
+    }
+
+    .status-badge {
       position: absolute;
       bottom: 4px;
       right: 4px;
-      width: 18px;
-      height: 18px;
+      background: #4caf50;
       border-radius: 50%;
-      border: 2px solid white;
-      box-sizing: content-box;
-      z-index: 100;
-    }
-    .online { background-color: #43b581; }
-    .idle { background-color: #faa61a; }
-    .dnd { background-color: #f04747; }
-    .offline { background-color: #747f8d; }
-
-    #username {
-      font-size: 1rem;
-      font-weight: bold;
-      text-shadow: 0 0 5px rgba(0,0,0,0.3);
+      width: 24px;
+      height: 24px;
+      border: 2px solid #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .info-bar {
-      margin-top: 2rem;
+    .status-badge svg {
+      width: 12px;
+      height: 12px;
+      fill: white;
+    }
+
+    .username {
+      font-size: 14px;
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .views, .location-label {
+      font-size: 10px;
+      margin: 8px 0;
+    }
+
+    .location-input {
+      margin: 6px auto 16px;
+      display: block;
+      width: 90%;
+      background: #222;
+      border: 1px solid #555;
+      color: white;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 10px;
+      padding: 4px 8px;
+      text-align: center;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 16px 0 24px;
+    }
+
+    .badge {
+      width: 36px;
+      height: 36px;
+      background: transparent;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      filter: drop-shadow(0 0 5px white);
+    }
+
+    .badge img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(0) invert(1) drop-shadow(0 0 6px white);
+    }
+
+    .badge[data-label]:hover::after {
+      content: attr(data-label);
+      position: absolute;
+      bottom: 150%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 10px;
+      white-space: nowrap;
+    }
+
+    .tagline {
+      font-size: 10px;
+      color: #bbb;
+      margin-bottom: 24px;
+    }
+
+    .social-links {
       display: flex;
       justify-content: center;
-      gap: 2rem;
-      font-size: 0.75rem;
-      align-items: center;
+      gap: 20px;
     }
 
-    .info-item {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .info-item img {
-      width: 16px;
-      height: 16px;
-    }
-
-    input[type="text"] {
-      background: #222;
-      color: white;
-      border: 1px solid white;
-      padding: 4px 8px;
-      font-family: 'Press Start 2P', monospace;
-      font-size: 0.6rem;
+    .social-links img {
+      width: 22px;
+      height: 22px;
+      filter: brightness(0) invert(1) drop-shadow(0 0 6px white);
     }
   </style>
 </head>
 <body>
-  <h1>Dashboard</h1>
+  <video id="background-video" autoplay muted loop playsinline>
+    <source src="background.mp4" type="video/mp4" />
+  </video>
+  <audio id="background-audio" autoplay muted loop>
+    <source src="audio.mp3" type="audio/mpeg" />
+  </audio>
+  <div id="vignette"></div>
 
-  <div id="profile">
-    <div class="avatar-container">
-      <img id="avatar" src="" alt="User Avatar" width="128" height="128" />
-      <div id="statusDot" class="status-dot offline"></div>
+  <main class="profile-card">
+    <div class="avatar-wrapper">
+      <img class="avatar" src="https://i.pinimg.com/736x/28/35/24/2835246d8785514767b63ad819905e40.jpg" alt="Profile" />
+      <div class="status-badge" title="Online">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>
+      </div>
     </div>
-    <p id="username"></p>
-  </div>
 
-  <div class="info-bar">
-    <div class="info-item">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/visible--v1.png" alt="View Icon"/>
-      <span id="viewCount">0</span>
+    <h1 class="username">tor</h1>
+    <h2 class="views" id="viewCount">loading views...</h2>
+    <input class="location-input" type="text" id="locationInput" placeholder="TYPE LOCATION HERE" />
+
+    <div class="badges">
+      <!-- badge elements -->
     </div>
-    <div class="info-item">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/marker.png" alt="Location Icon"/>
-      <input type="text" id="locationInput" placeholder="Enter location..." />
-    </div>
-  </div>
+
+    <p class="tagline">hey im tor! i made this with the help of my friends lol.</p>
+    <nav class="social-links">
+      <!-- social icons -->
+    </nav>
+  </main>
 
   <script>
-    async function getCurrentUser() {
-      const res = await fetch("/api/user");
-      if (!res.ok) {
-        window.location.href = "/login";
-        return null;
+    const titleText = "T O R";
+    let i = 0;
+    let forward = true;
+
+    function typeLoop() {
+      document.title = titleText.slice(0, i);
+      if (forward) {
+        if (i < titleText.length) {
+          i++;
+        } else {
+          forward = false;
+          setTimeout(typeLoop, 1000);
+          return;
+        }
+      } else {
+        if (i > 0) {
+          i--;
+        } else {
+          forward = true;
+        }
       }
-      return res.json();
+      setTimeout(typeLoop, 200);
     }
+    window.addEventListener("load", () => {
+      typeLoop();
+      const audio = document.getElementById('background-audio');
+      document.addEventListener('click', function enableAudio() {
+        audio.muted = false;
+        audio.volume = 0.5;
+        audio.play().catch(console.error);
+        document.removeEventListener('click', enableAudio);
+      });
 
-    async function getStatus(userId) {
-      const res = await fetch(`/api/status/${userId}`);
-      if (!res.ok) return { status: "offline" };
-      return res.json();
-    }
-
-    function statusClass(status) {
-      if (!status) return "offline";
-      status = status.toLowerCase();
-      if (status === "online") return "online";
-      if (status === "idle") return "idle";
-      if (status === "dnd" || status === "do_not_disturb") return "dnd";
-      return "offline";
-    }
-
-    function simulateViewCounter() {
-      const viewSpan = document.getElementById("viewCount");
-      let count = Math.floor(Math.random() * 300) + 200; // Start random 200–500
+      const viewElement = document.getElementById("viewCount");
+      let views = Math.floor(Math.random() * 500) + 5000;
+      viewElement.textContent = views.toLocaleString() + "+ VIEWS";
 
       setInterval(() => {
-        count += Math.floor(Math.random() * 3); // Increment by 0–2
-        viewSpan.textContent = count;
-      }, 1500); // Every 1.5s
-    }
-
-    async function init() {
-      const user = await getCurrentUser();
-      if (!user) return;
-
-      document.getElementById("username").textContent = `${user.username}#${user.discriminator}`;
-      document.getElementById("avatar").src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
-
-      const statusData = await getStatus(user.id);
-      document.getElementById("statusDot").className = "status-dot " + statusClass(statusData.status);
-
-      simulateViewCounter(); // Start view count
-    }
-
-    init();
+        views += Math.floor(Math.random() * 5);
+        viewElement.textContent = views.toLocaleString() + "+ VIEWS";
+      }, 2000);
+    });
   </script>
 </body>
 </html>
