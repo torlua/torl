@@ -4,10 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title></title>
-  <!-- Google Fonts: Russo One for blocky stencil style -->
-  <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet" />
-
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
     * {
       margin: 0;
       padding: 0;
@@ -16,7 +15,7 @@
 
     html, body {
       height: 100%;
-      font-family: 'Russo One', monospace, sans-serif;
+      font-family: 'Poppins', sans-serif;
       background: black;
       color: #e1e1e6;
       display: flex;
@@ -66,12 +65,13 @@
       color: white;
       font-size: 48px;
       font-weight: 600;
-      font-family: 'Russo One', monospace, sans-serif;
+      font-family: 'Poppins', sans-serif;
       letter-spacing: 0.2em;
       white-space: nowrap;
       overflow: hidden;
       border-right: 2px solid white;
       animation: typing 1.5s steps(8), blink 0.75s step-end infinite;
+      /* VHS effect added below via global styles */
     }
 
     @keyframes typing {
@@ -128,25 +128,91 @@
       fill: white;
     }
 
+    /* VHS glitch effect on all text */
+    body, body * {
+      position: relative;
+      color: #e1e1e6;
+      text-shadow:
+        0 0 4px #00f,
+        0 0 8px #00f,
+        0 0 12px #00f,
+        0 0 18px #00f,
+        0 0 24px #0ff,
+        0 0 30px #0ff;
+      animation: vhs-glitch 1.5s infinite alternate;
+    }
+
+    /* Username blue glow on black */
     .username {
+      color: #0af;
+      background-color: black;
+      padding: 0 6px;
+      border-radius: 6px;
+      text-shadow:
+        0 0 5px #0af,
+        0 0 10px #0af,
+        0 0 20px #0af,
+        0 0 30px #05a,
+        0 0 40px #05a;
+      animation: glow-blue 3s ease-in-out infinite alternate;
       font-weight: 600;
       font-size: 26px;
       margin-bottom: 10px;
       letter-spacing: 0.04em;
-      animation: glow 2s infinite alternate;
+      /* Remove original glow animation to avoid conflict */
+      animation-name: glow-blue;
     }
 
-    @keyframes glow {
-      from { text-shadow: 0 0 4px #fff; }
-      to { text-shadow: 0 0 12px #0ff; }
+    @keyframes vhs-glitch {
+      0% {
+        text-shadow:
+          1px 0 2px #f00,
+          -1px 0 2px #0ff,
+          0 0 4px #fff;
+      }
+      25% {
+        text-shadow:
+          -1px 0 2px #f00,
+          1px 0 2px #0ff,
+          0 0 6px #fff;
+      }
+      50% {
+        text-shadow:
+          0 1px 3px #f00,
+          0 -1px 3px #0ff,
+          0 0 8px #fff;
+      }
+      75% {
+        text-shadow:
+          1px 1px 4px #f00,
+          -1px -1px 4px #0ff,
+          0 0 6px #fff;
+      }
+      100% {
+        text-shadow:
+          0 0 2px #f00,
+          0 0 4px #0ff,
+          0 0 6px #fff;
+      }
     }
 
-    .views-location {
-      font-size: 14px;
-      color: #bbb;
-      margin-bottom: 16px;
-      letter-spacing: 0.05em;
-      user-select: text;
+    @keyframes glow-blue {
+      0%, 100% {
+        text-shadow:
+          0 0 5px #0af,
+          0 0 10px #0af,
+          0 0 20px #0af,
+          0 0 30px #05a,
+          0 0 40px #05a;
+      }
+      50% {
+        text-shadow:
+          0 0 8px #4bf,
+          0 0 16px #4bf,
+          0 0 32px #3af,
+          0 0 40px #38f,
+          0 0 50px #36f;
+      }
     }
 
     .badges {
@@ -167,7 +233,6 @@
       justify-content: center;
       transition: all 0.3s ease;
       filter: drop-shadow(0 0 5px white);
-      position: relative;
     }
 
     .badge img {
@@ -188,7 +253,6 @@
       border-radius: 6px;
       font-size: 13px;
       white-space: nowrap;
-      pointer-events: none;
     }
 
     .tagline {
@@ -260,10 +324,7 @@
     </div>
 
     <h1 class="username">tor</h1>
-    <div class="views-location">
-      <span id="views">Loading views...</span> • <span id="location">Loading country...</span>
-    </div>
-
+    <h2 class="views">10k+ views</h2>
     <div class="badges">
       <div class="badge" data-label="CEO"><img src="ceo.png" alt="ceo" /></div>
       <div class="badge" data-label="Booster"><img src="mission.png" alt="Booster" /></div>
@@ -283,12 +344,11 @@
     </nav>
   </main>
 
+  <!-- JS Logic -->
   <script>
     const intro = document.getElementById("intro-screen");
     const profile = document.querySelector(".profile-card");
     const audio = document.getElementById("background-audio");
-    const viewsEl = document.getElementById("views");
-    const locationEl = document.getElementById("location");
 
     intro.addEventListener("click", () => {
       intro.style.display = "none";
@@ -299,32 +359,7 @@
       audio.play().catch(err => {
         console.warn("Autoplay failed:", err);
       });
-
-      incrementViews();
-      fetchLocation();
     });
-
-    function incrementViews() {
-      const key = "page_view_count";
-      let count = localStorage.getItem(key);
-      count = count ? parseInt(count, 10) + 1 : 1;
-      localStorage.setItem(key, count);
-      viewsEl.textContent = count.toLocaleString() + " views";
-    }
-
-    async function fetchLocation() {
-      try {
-        const response = await fetch('https://ipapi.co/json/');
-        if (!response.ok) throw new Error("Location API error");
-        const data = await response.json();
-        // Show ONLY country name, not city or region
-        const country = data.country_name || "Unknown location";
-        locationEl.textContent = country;
-      } catch (e) {
-        locationEl.textContent = "Location unavailable";
-        console.warn("Failed to fetch location:", e);
-      }
-    }
 
     // Typewriter effect for tab title
     const titleText = "T O R";
