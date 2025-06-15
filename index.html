@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Profile Card with Background</title>
+  <title></title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
@@ -16,29 +16,9 @@
     html, body {
       height: 100%;
       font-family: 'Poppins', sans-serif;
-      background: #000;
+      background: #000; /* fallback background */
       color: #e1e1e6;
       overflow: hidden;
-    }
-
-    #intro-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 4rem;
-      z-index: 9999;
-      cursor: pointer;
-      user-select: none;
-      transition: opacity 0.8s ease;
-      color: white;
-      font-weight: 600;
-      letter-spacing: 0.1em;
     }
 
     #background-video {
@@ -49,7 +29,7 @@
       height: 100vh;
       object-fit: cover;
       filter: brightness(0.3) contrast(0.8);
-      z-index: -10;
+      z-index: -2;
     }
 
     #background-audio {
@@ -64,9 +44,7 @@
       height: 100vh;
       pointer-events: none;
       background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.9) 90%);
-      z-index: -5;
-      opacity: 0;
-      transition: opacity 1s ease;
+      z-index: -1;
     }
 
     .profile-card {
@@ -77,20 +55,11 @@
       text-align: center;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
       user-select: none;
+      position: relative;
+      z-index: 1;
       margin: auto;
-      position: fixed;
       top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 10;
-      display: none;
-      opacity: 0;
-      transition: opacity 1s ease;
-    }
-
-    .profile-card.show {
-      display: block;
-      opacity: 1;
+      transform: translateY(50%);
     }
 
     .avatar-wrapper {
@@ -134,19 +103,12 @@
       letter-spacing: 0.04em;
     }
 
-    .views {
-      margin-bottom: 10px;
-      font-weight: 400;
-      color: #aaa;
-    }
-
     .badges {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 12px;
       margin: 16px 0 24px;
-      position: relative;
     }
 
     .badge {
@@ -157,9 +119,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
-      cursor: default;
+      transition: all 0.3s ease;
       filter: drop-shadow(0 0 5px white);
+      position: relative;
     }
 
     .badge img {
@@ -181,7 +143,6 @@
       font-size: 13px;
       white-space: nowrap;
       pointer-events: none;
-      z-index: 20;
     }
 
     .tagline {
@@ -194,7 +155,6 @@
       display: flex;
       justify-content: center;
       gap: 20px;
-      margin-bottom: 20px;
     }
 
     .social-links a {
@@ -219,64 +179,67 @@
       filter: brightness(0) invert(1) drop-shadow(0 0 6px white);
     }
 
-    /* New live view & country container */
-    .live-country {
-      font-weight: 600;
-      font-size: 14px;
-      color: #aaa;
-      margin-top: 12px;
+    /* Start Screen Overlay */
+    #start-screen {
+      position: fixed;
+      inset: 0;
+      background: #000;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      cursor: pointer;
       user-select: none;
+      transition: opacity 0.6s ease;
     }
 
-    /* Country input styling */
-    #countryInput {
-      background: #111;
-      border: 1px solid #555;
-      border-radius: 8px;
-      color: #eee;
-      padding: 4px 8px;
-      width: 130px;
-      font-size: 14px;
-      text-align: center;
-      outline: none;
-      transition: border-color 0.3s ease;
+    #start-screen.hidden {
+      opacity: 0;
+      pointer-events: none;
     }
-    #countryInput:focus {
-      border-color: #4caf50;
-      box-shadow: 0 0 6px #4caf50;
-      background: #222;
+
+    #start-screen h1 {
+      font-size: 8rem;
+      color: white;
+      font-weight: 900;
+      font-family: 'Poppins', sans-serif;
+      text-shadow: 2px 2px 10px #00fff7;
+      letter-spacing: 1rem;
+      margin-bottom: 20px;
+      user-select: none;
+      text-transform: uppercase;
+    }
+
+    #start-screen p {
+      color: #aaa;
+      font-size: 1.4rem;
+      user-select: none;
+      letter-spacing: 0.1rem;
     }
   </style>
 </head>
 <body>
 
-  <div id="intro-screen">Cc</div>
+  <!-- Start Screen -->
+  <div id="start-screen">
+    <h1>CC</h1>
+    <p>Click anywhere to start</p>
+  </div>
 
-  <!-- Background Video -->
-  <video
-    id="background-video"
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="auto"
-  >
-    <source src="https://cdn.videvo.net/videvo_files/video/free/2016-09/small_watermarked/160903_03_AerialDroneSunset_01_preview.webm" type="video/webm" />
-    <source src="https://cdn.videvo.net/videvo_files/video/free/2016-09/small_watermarked/160903_03_AerialDroneSunset_01_preview.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
+  <!-- Background video -->
+  <video id="background-video" autoplay muted loop playsinline>
+    <source src="background.mp4" type="video/mp4" />
   </video>
 
-  <!-- Background Audio -->
-  <audio id="background-audio" muted loop>
+  <!-- Background Audio (starts muted for autoplay compliance) -->
+  <audio id="background-audio" autoplay muted loop>
     <source src="audio.mp3" type="audio/mpeg" />
   </audio>
 
   <div id="vignette"></div>
 
-  <!-- Profile Card -->
-  <main class="profile-card" id="profileCard">
+  <main class="profile-card">
     <div class="avatar-wrapper">
       <img
         class="avatar"
@@ -284,92 +247,108 @@
         alt="Profile"
       />
       <div class="status-badge" title="Online">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6" /></svg>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>
       </div>
     </div>
 
     <h1 class="username">tor</h1>
-
-    <!-- Live views and country container -->
-    <div class="live-country">
-      <div class="views" id="liveViews">Views: 10,000</div>
-      <div>
-        Country:
-        <input
-          type="text"
-          id="countryInput"
-          placeholder="Type country..."
-          maxlength="20"
-        />
-      </div>
-    </div>
-
+    <h2 class="views">10k+ views</h2>
     <div class="badges">
-      <div class="badge" data-label="CEO"><img src="ceo.png" alt="ceo" /></div>
-      <div class="badge" data-label="Booster"><img src="mission.png" alt="Booster" /></div>
-      <div class="badge" data-label="Premium"><img src="crown.png" alt="Premium" /></div>
-      <div class="badge" data-label="Donator"><img src="Ipo5WaB.png" alt="Donator" /></div>
-      <div class="badge" data-label="Bug Hunter"><img src="NxFGjVx.png" alt="Bug Hunter" /></div>
-      <div class="badge" data-label="Administrator"><img src="zWXn6xL.png" alt="Admin" /></div>
-      <div class="badge" data-label="All Badges"><img src="crystal.png" alt="All Badges" /></div>
+      <div class="badge" data-label="CEO">
+        <img src="ceo.png" alt="ceo" />
+      </div>
+      <div class="badge" data-label="Booster">
+        <img src="mission.png" alt="Booster" />
+      </div>
+      <div class="badge" data-label="Premium">
+        <img src="crown.png" alt="Premium" />
+      </div>
+      <div class="badge" data-label="Donator">
+        <img src="Ipo5WaB.png" alt="Donator" />
+      </div>
+      <div class="badge" data-label="Bug Hunter">
+        <img src="NxFGjVx.png" alt="Bug Hunter" />
+      </div>
+      <div class="badge" data-label="Administrator">
+        <img src="zWXn6xL.png" alt="Admin" />
+      </div>
+      <div class="badge" data-label="All Badges">
+        <img src="crystal.png" alt="All Badges" />
+      </div>
     </div>
 
     <p class="tagline">hey im tor! i made this with the help of my friends lol.</p>
 
     <nav class="social-links">
-      <a href="https://discord.gg/DQDzyBdTvm"
-        ><img
-          src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png"
-          alt="Discord"
-      /></a>
-      <a href="https://x.com/torluaa"
-        ><img
-          src="https://cdn-icons-png.flaticon.com/512/733/733579.png"
-          alt="Twitter"
-      /></a>
-      <a href="https://github.com/torlua"
-        ><img
-          src="https://cdn-icons-png.flaticon.com/512/2111/2111432.png"
-          alt="GitHub"
-      /></a>
+      <a href="https://discord.gg/DQDzyBdTvm" target="_blank" rel="noopener noreferrer">
+        <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord" />
+      </a>
+      <a href="https://x.com/torluaa" target="_blank" rel="noopener noreferrer">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" />
+      </a>
+      <a href="https://github.com/torlua" target="_blank" rel="noopener noreferrer">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111432.png" alt="GitHub" />
+      </a>
     </nav>
   </main>
 
+  <!-- Script to enable audio on first user click and hide start screen -->
   <script>
-    const introScreen = document.getElementById("intro-screen");
-    const profileCard = document.getElementById("profileCard");
-    const bgVideo = document.getElementById("background-video");
-    const bgAudio = document.getElementById("background-audio");
-    const vignette = document.getElementById("vignette");
-    const liveViewsElem = document.getElementById("liveViews");
-    const countryInput = document.getElementById("countryInput");
+    window.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById('background-audio');
+      const startScreen = document.getElementById('start-screen');
 
-    let views = 10000; // starting views
+      const enableAudioAndHideScreen = () => {
+        audio.muted = false;
+        audio.volume = 0.5;
+        audio.play().catch(err => {
+          console.log("Autoplay failed:", err);
+        });
 
-    introScreen.addEventListener("click", () => {
-      introScreen.style.opacity = 0;
-      setTimeout(() => {
-        introScreen.style.display = "none";
-        profileCard.style.display = "block";
+        // Fade out start screen
+        startScreen.classList.add('hidden');
         setTimeout(() => {
-          profileCard.style.opacity = 1;
-          vignette.style.opacity = 1;
-        }, 50);
-        bgAudio.muted = false;
-        bgAudio.volume = 0.5;
-        bgAudio.play().catch(() => {});
-        bgVideo.play().catch(() => {});
-      }, 800);
+          startScreen.style.display = 'none';
+        }, 600);
+
+        // Unmute video if it was muted (optional)
+        const video = document.getElementById('background-video');
+        video.muted = false;
+
+        document.removeEventListener('click', enableAudioAndHideScreen);
+      };
+
+      document.addEventListener('click', enableAudioAndHideScreen);
     });
-
-    // Increment live views every second (simulate)
-    setInterval(() => {
-      views += Math.floor(Math.random() * 5); // add 0-4 views randomly each second
-      liveViewsElem.textContent = "Views: " + views.toLocaleString();
-    }, 1000);
-
-    // Optional: country input updates a tooltip or something else if needed
-    // For now it just updates live in the input box
   </script>
+
+  <script>
+    const titleText = "T O R";
+    let i = 0;
+    let forward = true;
+
+    function typeLoop() {
+      document.title = titleText.slice(0, i);
+      if (forward) {
+        if (i < titleText.length) {
+          i++;
+        } else {
+          forward = false;
+          setTimeout(typeLoop, 1000); // Pause at full text
+          return;
+        }
+      } else {
+        if (i > 0) {
+          i--;
+        } else {
+          forward = true;
+        }
+      }
+      setTimeout(typeLoop, 200);
+    }
+
+    window.addEventListener("load", typeLoop);
+  </script>
+
 </body>
 </html>
