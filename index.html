@@ -47,7 +47,6 @@
       object-fit: cover;
       filter: brightness(0.3) contrast(0.8);
       z-index: -2;
-      display: none;
     }
 
     #background-audio {
@@ -63,7 +62,8 @@
       pointer-events: none;
       background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.9) 90%);
       z-index: -1;
-      display: none;
+      opacity: 0;
+      transition: opacity 1s ease;
     }
 
     .profile-card {
@@ -75,15 +75,21 @@
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
       user-select: none;
       margin: auto;
+      position: relative;
+      z-index: 10;
+      display: none;
       opacity: 0;
       transition: opacity 1s ease;
-      z-index: 1;
-      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      position: fixed;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
 
-    .show {
-      display: block !important;
-      opacity: 1 !important;
+    .profile-card.show {
+      display: block;
+      opacity: 1;
     }
 
     .avatar-wrapper {
@@ -127,12 +133,19 @@
       letter-spacing: 0.04em;
     }
 
+    .views {
+      margin-bottom: 10px;
+      font-weight: 400;
+      color: #aaa;
+    }
+
     .badges {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 12px;
       margin: 16px 0 24px;
+      position: relative;
     }
 
     .badge {
@@ -143,7 +156,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.3s ease;
+      position: relative;
+      cursor: default;
       filter: drop-shadow(0 0 5px white);
     }
 
@@ -165,6 +179,8 @@
       border-radius: 6px;
       font-size: 13px;
       white-space: nowrap;
+      pointer-events: none;
+      z-index: 20;
     }
 
     .tagline {
@@ -209,10 +225,12 @@
   <!-- Background -->
   <video id="background-video" autoplay muted loop playsinline>
     <source src="background.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
   </video>
 
-  <audio id="background-audio" autoplay muted loop>
+  <audio id="background-audio" muted loop>
     <source src="audio.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
   </audio>
 
   <div id="vignette"></div>
@@ -248,7 +266,6 @@
     </nav>
   </main>
 
-  <!-- JS -->
   <script>
     const introScreen = document.getElementById("intro-screen");
     const profileCard = document.getElementById("profileCard");
@@ -257,17 +274,30 @@
     const vignette = document.getElementById("vignette");
 
     introScreen.addEventListener("click", () => {
+      // Fade out intro
       introScreen.style.opacity = 0;
       setTimeout(() => {
         introScreen.style.display = "none";
-        profileCard.classList.add("show");
-        bgVideo.style.display = "block";
-        vignette.style.display = "block";
+
+        // Show profile card with fade
+        profileCard.style.display = "block";
+        setTimeout(() => {
+          profileCard.style.opacity = 1;
+        }, 50);
+
+        // Show vignette with fade
+        vignette.style.opacity = 1;
+
+        // Unmute and play audio
         bgAudio.muted = false;
         bgAudio.volume = 0.5;
         bgAudio.play().catch(() => {});
-      }, 600);
+
+        // Play video (already autoplay but just in case)
+        bgVideo.play().catch(() => {});
+      }, 800);
     });
   </script>
+
 </body>
 </html>
