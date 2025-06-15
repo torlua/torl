@@ -64,22 +64,15 @@
     .intro-text {
       color: white;
       font-size: 48px;
-      font-weight: 600;
+      font-weight: 700;
       font-family: 'Poppins', sans-serif;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.1em;
       white-space: nowrap;
       overflow: hidden;
       border-right: 2px solid white;
       animation: typing 1.5s steps(8), blink 0.75s step-end infinite;
-      text-shadow:
-        1px 1px 0 #222,
-        -1px -1px 0 #444,
-        1px -1px 0 #333,
-        -1px 1px 0 #555,
-        0 0 3px #888,
-        0 0 5px #222;
-      filter: grayscale(100%) contrast(120%) brightness(110%);
-      animation: vintage-flicker 2s infinite alternate ease-in-out, typing 1.5s steps(8), blink 0.75s step-end infinite;
+      text-shadow: none;
+      filter: none;
     }
 
     @keyframes typing {
@@ -89,15 +82,6 @@
 
     @keyframes blink {
       50% { border-color: transparent }
-    }
-
-    @keyframes vintage-flicker {
-      0%, 100% {
-        filter: grayscale(100%) contrast(120%) brightness(110%);
-      }
-      50% {
-        filter: grayscale(90%) contrast(110%) brightness(105%);
-      }
     }
 
     .profile-card {
@@ -156,21 +140,13 @@
     }
 
     .username {
-      font-weight: 600;
-      font-size: 26px;
+      font-weight: 700;
+      font-size: 28px;
       margin-bottom: 10px;
-      letter-spacing: 0.04em;
-      /* white vintage text style, no glow */
+      letter-spacing: 0.05em;
       color: white;
-      text-shadow:
-        1px 1px 0 #222,
-        -1px -1px 0 #444,
-        1px -1px 0 #333,
-        -1px 1px 0 #555,
-        0 0 3px #888,
-        0 0 5px #222;
-      filter: grayscale(100%) contrast(120%) brightness(110%);
-      animation: vintage-flicker 2s infinite alternate ease-in-out;
+      text-shadow: none;
+      filter: none;
     }
 
     .badges {
@@ -292,11 +268,7 @@
   <!-- Profile Card -->
   <main class="profile-card">
     <div class="avatar-wrapper">
-      <img
-        class="avatar"
-        src="https://i.pinimg.com/736x/28/35/24/2835246d8785514767b63ad819905e40.jpg"
-        alt="Profile"
-      />
+      <img class="avatar" src="https://i.pinimg.com/736x/28/35/24/2835246d8785514767b63ad819905e40.jpg" alt="Profile" />
       <div class="status-badge" title="Online">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>
       </div>
