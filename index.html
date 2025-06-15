@@ -287,5 +287,32 @@
   window.addEventListener("load", typeLoop);
 </script>
   </script>
+<script>
+  const titleText = "T O R";
+  let i = 0;
+  let forward = true;
+
+  function typeLoop() {
+    document.title = titleText.slice(0, i);
+    if (forward) {
+      if (i < titleText.length) {
+        i++;
+      } else {
+        forward = false;
+        setTimeout(typeLoop, 1000); // Pause at full text
+        return;
+      }
+    } else {
+      if (i > 0) {
+        i--;
+      } else {
+        forward = true;
+      }
+    }
+    setTimeout(typeLoop, 200);
+  }
+
+  window.addEventListener("load", typeLoop);
+</script>=
 </body>
 </html>
