@@ -4,11 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title></title>
-
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
     * {
       margin: 0;
       padding: 0;
@@ -17,13 +15,27 @@
 
     html, body {
       height: 100%;
-      font-family: 'Press Start 2P', cursive;
+      font-family: 'Poppins', sans-serif;
       background: #000;
       color: #e1e1e6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
       overflow: hidden;
+    }
+
+    #intro-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      z-index: 9999;
+      cursor: pointer;
+      user-select: none;
+      transition: opacity 0.8s ease;
     }
 
     #background-video {
@@ -35,6 +47,11 @@
       object-fit: cover;
       filter: brightness(0.3) contrast(0.8);
       z-index: -2;
+      display: none;
+    }
+
+    #background-audio {
+      display: none;
     }
 
     #vignette {
@@ -46,6 +63,7 @@
       pointer-events: none;
       background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.9) 90%);
       z-index: -1;
+      display: none;
     }
 
     .profile-card {
@@ -56,6 +74,16 @@
       text-align: center;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
       user-select: none;
+      margin: auto;
+      opacity: 0;
+      transition: opacity 1s ease;
+      z-index: 1;
+      position: relative;
+    }
+
+    .show {
+      display: block !important;
+      opacity: 1 !important;
     }
 
     .avatar-wrapper {
@@ -93,15 +121,10 @@
     }
 
     .username {
-      font-size: 18px;
+      font-weight: 600;
+      font-size: 26px;
       margin-bottom: 10px;
-      word-spacing: 5px;
-    }
-
-    .views, .location {
-      font-size: 12px;
-      color: #aaa;
-      margin-bottom: 6px;
+      letter-spacing: 0.04em;
     }
 
     .badges {
@@ -115,10 +138,12 @@
     .badge {
       width: 36px;
       height: 36px;
+      background: transparent;
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.3s ease;
       filter: drop-shadow(0 0 5px white);
     }
 
@@ -138,13 +163,14 @@
       color: white;
       padding: 5px 10px;
       border-radius: 6px;
-      font-size: 10px;
+      font-size: 13px;
       white-space: nowrap;
     }
 
     .tagline {
-      font-size: 10px;
-      margin-bottom: 16px;
+      font-size: 14px;
+      color: #bbb;
+      margin-bottom: 24px;
     }
 
     .social-links {
@@ -156,11 +182,17 @@
     .social-links a {
       width: 38px;
       height: 38px;
+      background: transparent;
       border-radius: 12px;
       display: flex;
       justify-content: center;
       align-items: center;
+      transition: transform 0.3s ease;
       filter: drop-shadow(0 0 6px white);
+    }
+
+    .social-links a:hover {
+      transform: scale(1.15);
     }
 
     .social-links img {
@@ -172,13 +204,21 @@
 </head>
 <body>
 
+  <div id="intro-screen">Cc</div>
+
+  <!-- Background -->
   <video id="background-video" autoplay muted loop playsinline>
     <source src="background.mp4" type="video/mp4" />
   </video>
 
+  <audio id="background-audio" autoplay muted loop>
+    <source src="audio.mp3" type="audio/mpeg" />
+  </audio>
+
   <div id="vignette"></div>
 
-  <main class="profile-card">
+  <!-- Profile Card -->
+  <main class="profile-card" id="profileCard">
     <div class="avatar-wrapper">
       <img class="avatar" src="https://i.pinimg.com/736x/28/35/24/2835246d8785514767b63ad819905e40.jpg" alt="Profile" />
       <div class="status-badge" title="Online">
@@ -186,9 +226,8 @@
       </div>
     </div>
 
-    <h1 class="username">T O R</h1>
-    <h2 class="views" id="view-count">Views: ...</h2>
-    <h2 class="location" id="country-name">Country: ...</h2>
+    <h1 class="username">tor</h1>
+    <h2 class="views">10k+ views</h2>
 
     <div class="badges">
       <div class="badge" data-label="CEO"><img src="ceo.png" alt="ceo" /></div>
@@ -196,7 +235,7 @@
       <div class="badge" data-label="Premium"><img src="crown.png" alt="Premium" /></div>
       <div class="badge" data-label="Donator"><img src="Ipo5WaB.png" alt="Donator" /></div>
       <div class="badge" data-label="Bug Hunter"><img src="NxFGjVx.png" alt="Bug Hunter" /></div>
-      <div class="badge" data-label="Admin"><img src="zWXn6xL.png" alt="Admin" /></div>
+      <div class="badge" data-label="Administrator"><img src="zWXn6xL.png" alt="Admin" /></div>
       <div class="badge" data-label="All Badges"><img src="crystal.png" alt="All Badges" /></div>
     </div>
 
@@ -209,56 +248,26 @@
     </nav>
   </main>
 
+  <!-- JS -->
   <script>
-    // Enable audio after user interaction
-    window.addEventListener('DOMContentLoaded', () => {
-      const audio = document.getElementById('background-audio');
-      const enableAudio = () => {
-        audio.muted = false;
-        audio.volume = 0.5;
-        audio.play().catch(err => console.log("Autoplay failed:", err));
-        document.removeEventListener('click', enableAudio);
-      };
-      document.addEventListener('click', enableAudio);
+    const introScreen = document.getElementById("intro-screen");
+    const profileCard = document.getElementById("profileCard");
+    const bgVideo = document.getElementById("background-video");
+    const bgAudio = document.getElementById("background-audio");
+    const vignette = document.getElementById("vignette");
+
+    introScreen.addEventListener("click", () => {
+      introScreen.style.opacity = 0;
+      setTimeout(() => {
+        introScreen.style.display = "none";
+        profileCard.classList.add("show");
+        bgVideo.style.display = "block";
+        vignette.style.display = "block";
+        bgAudio.muted = false;
+        bgAudio.volume = 0.5;
+        bgAudio.play().catch(() => {});
+      }, 600);
     });
-
-    // Title type animation
-    const titleText = "T O R";
-    let i = 0;
-    let forward = true;
-    function typeLoop() {
-      document.title = titleText.slice(0, i);
-      if (forward) {
-        if (i < titleText.length) i++;
-        else { forward = false; setTimeout(typeLoop, 1000); return; }
-      } else {
-        if (i > 0) i--;
-        else forward = true;
-      }
-      setTimeout(typeLoop, 200);
-    }
-    window.addEventListener("load", typeLoop);
-
-    // 🔥 Live View Counter
-    const viewCountElement = document.getElementById("view-count");
-    let views = parseInt(localStorage.getItem("torViews") || "0");
-    views++;
-    localStorage.setItem("torViews", views);
-    viewCountElement.textContent = `Views: ${views.toLocaleString()}`;
-
-    // 🌍 Country Detection
-    fetch("https://ipapi.co/json/")
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("country-name").textContent = `Country: ${data.country_name}`;
-      })
-      .catch(() => {
-        document.getElementById("country-name").textContent = "Country: Unknown";
-      });
   </script>
-
-  <audio id="background-audio" autoplay muted loop>
-    <source src="audio.mp3" type="audio/mpeg" />
-  </audio>
 </body>
 </html>
