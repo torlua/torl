@@ -3,341 +3,145 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title></title>
+  <title>Dashboard</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html, body {
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
-      background: black;
+    @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+    body {
+      font-family: 'Press Start 2P', monospace;
+      background: linear-gradient(135deg, #5865F2, #EB3B8A);
       color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
-
-    #background-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      filter: brightness(0.3) contrast(0.8);
-      z-index: -2;
-    }
-
-    #background-audio {
-      display: none;
-    }
-
-    #vignette {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.9) 90%);
-      z-index: -1;
-    }
-
-    #intro-screen {
-      position: fixed;
-      inset: 0;
-      background-color: black;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .intro-text {
-      color: white;
-      font-size: 48px;
-      font-weight: 700;
-      font-family: 'Poppins', sans-serif;
-      letter-spacing: 0.1em;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid white;
-      animation: typing 1.5s steps(8), blink 0.75s step-end infinite;
-      text-shadow: none;
-      filter: none;
-    }
-
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 4ch }
-    }
-
-    @keyframes blink {
-      50% { border-color: transparent }
-    }
-
-    .profile-card {
-      background: #000;
-      border-radius: 20px;
-      padding: 36px 48px;
-      max-width: 360px;
       text-align: center;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-      user-select: none;
-      display: none;
-      color: white;
-      text-shadow:
-        1px 1px 0 #222,
-        -1px -1px 0 #444,
-        1px -1px 0 #333,
-        -1px 1px 0 #555,
-        0 0 3px #888,
-        0 0 5px #222;
-      filter: grayscale(100%) contrast(120%) brightness(110%);
-      animation: vintage-flicker 2s infinite alternate ease-in-out;
+      margin: 2rem;
     }
-
-    .avatar-wrapper {
+    .avatar-container {
       position: relative;
       display: inline-block;
-      margin-bottom: 24px;
+      margin-bottom: 1rem;
+      z-index: 10;
     }
-
-    .avatar {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #444;
-    }
-
-    .status-badge {
+    .status-dot {
       position: absolute;
       bottom: 4px;
       right: 4px;
-      background: #4caf50;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      border: 2px solid #000;
+      border: 2px solid white;
+      box-sizing: content-box;
+      z-index: 100;
+    }
+    .online { background-color: #43b581; }
+    .idle { background-color: #faa61a; }
+    .dnd { background-color: #f04747; }
+    .offline { background-color: #747f8d; }
+
+    #username {
+      font-size: 1rem;
+      font-weight: bold;
+      text-shadow: 0 0 5px rgba(0,0,0,0.3);
+    }
+
+    .info-bar {
+      margin-top: 2rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      font-size: 0.75rem;
+      align-items: center;
+    }
+
+    .info-item {
       display: flex;
       align-items: center;
-      justify-content: center;
+      gap: 0.4rem;
     }
 
-    .status-badge svg {
-      width: 12px;
-      height: 12px;
-      fill: white;
+    .info-item img {
+      width: 16px;
+      height: 16px;
     }
 
-    .username {
-      font-weight: 700;
-      font-size: 28px;
-      margin-bottom: 10px;
-      letter-spacing: 0.05em;
+    input[type="text"] {
+      background: #222;
       color: white;
-      text-shadow: none;
-      filter: none;
-    }
-
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin: 16px 0 24px;
-    }
-
-    .badge {
-      width: 36px;
-      height: 36px;
-      background: transparent;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      filter: drop-shadow(0 0 5px white);
-      text-shadow:
-        1px 1px 0 #222,
-        -1px -1px 0 #444,
-        1px -1px 0 #333,
-        -1px 1px 0 #555,
-        0 0 3px #888,
-        0 0 5px #222;
-    }
-
-    .badge img {
-      width: 22px;
-      height: 22px;
-      filter: brightness(0) invert(1) drop-shadow(0 0 6px white);
-    }
-
-    .badge[data-label]:hover::after {
-      content: attr(data-label);
-      position: absolute;
-      bottom: 150%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #333;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 13px;
-      white-space: nowrap;
-      text-shadow:
-        1px 1px 0 #222,
-        -1px -1px 0 #444,
-        1px -1px 0 #333,
-        -1px 1px 0 #555,
-        0 0 3px #888,
-        0 0 5px #222;
-    }
-
-    .tagline {
-      font-size: 14px;
-      color: white;
-      margin-bottom: 24px;
-      text-shadow:
-        1px 1px 0 #222,
-        -1px -1px 0 #444,
-        1px -1px 0 #333,
-        -1px 1px 0 #555,
-        0 0 3px #888,
-        0 0 5px #222;
-    }
-
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .social-links a {
-      width: 38px;
-      height: 38px;
-      background: transparent;
-      border-radius: 12px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: transform 0.3s ease;
-      filter: drop-shadow(0 0 6px white);
-    }
-
-    .social-links a:hover {
-      transform: scale(1.15);
-    }
-
-    .social-links img {
-      width: 22px;
-      height: 22px;
-      filter: brightness(0) invert(1) drop-shadow(0 0 6px white);
+      border: 1px solid white;
+      padding: 4px 8px;
+      font-family: 'Press Start 2P', monospace;
+      font-size: 0.6rem;
     }
   </style>
 </head>
 <body>
+  <h1>Dashboard</h1>
 
-  <!-- Background video -->
-  <video id="background-video" autoplay muted loop playsinline>
-    <source src="background.mp4" type="video/mp4" />
-  </video>
-
-  <!-- Background Audio -->
-  <audio id="background-audio" autoplay muted loop>
-    <source src="audio.mp3" type="audio/mpeg" />
-  </audio>
-
-  <!-- Vignette -->
-  <div id="vignette"></div>
-
-  <!-- Intro Screen -->
-  <div id="intro-screen">
-    <div class="intro-text">tor</div>
+  <div id="profile">
+    <div class="avatar-container">
+      <img id="avatar" src="" alt="User Avatar" width="128" height="128" />
+      <div id="statusDot" class="status-dot offline"></div>
+    </div>
+    <p id="username"></p>
   </div>
 
-  <!-- Profile Card -->
-  <main class="profile-card">
-    <div class="avatar-wrapper">
-      <img class="avatar" src="https://i.pinimg.com/736x/28/35/24/2835246d8785514767b63ad819905e40.jpg" alt="Profile" />
-      <div class="status-badge" title="Online">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>
-      </div>
+  <div class="info-bar">
+    <div class="info-item">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/visible--v1.png" alt="View Icon"/>
+      <span id="viewCount">0</span>
     </div>
-
-    <h1 class="username">tor</h1>
-    <h2 class="views">10k+ views</h2>
-    <div class="badges">
-      <div class="badge" data-label="CEO"><img src="ceo.png" alt="ceo" /></div>
-      <div class="badge" data-label="Booster"><img src="mission.png" alt="Booster" /></div>
-      <div class="badge" data-label="Premium"><img src="crown.png" alt="Premium" /></div>
-      <div class="badge" data-label="Donator"><img src="Ipo5WaB.png" alt="Donator" /></div>
-      <div class="badge" data-label="Bug Hunter"><img src="NxFGjVx.png" alt="Bug Hunter" /></div>
-      <div class="badge" data-label="Administrator"><img src="zWXn6xL.png" alt="Admin" /></div>
-      <div class="badge" data-label="All Badges"><img src="crystal.png" alt="All Badges" /></div>
+    <div class="info-item">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/marker.png" alt="Location Icon"/>
+      <input type="text" id="locationInput" placeholder="Enter location..." />
     </div>
+  </div>
 
-    <p class="tagline">hey im tor! i made this with the help of my friends lol.</p>
-
-    <nav class="social-links">
-      <a href="https://discord.gg/DQDzyBdTvm"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord" /></a>
-      <a href="https://x.com/torluaa"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" /></a>
-      <a href="https://github.com/torlua"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111432.png" alt="GitHub" /></a>
-    </nav>
-  </main>
-
-  <!-- JS Logic -->
   <script>
-    const intro = document.getElementById("intro-screen");
-    const profile = document.querySelector(".profile-card");
-    const audio = document.getElementById("background-audio");
-
-    intro.addEventListener("click", () => {
-      intro.style.display = "none";
-      profile.style.display = "block";
-
-      audio.muted = false;
-      audio.volume = 0.5;
-      audio.play().catch(err => {
-        console.warn("Autoplay failed:", err);
-      });
-    });
-
-    // Typewriter effect for tab title
-    const titleText = "T O R";
-    let i = 0;
-    let forward = true;
-
-    function typeLoop() {
-      document.title = titleText.slice(0, i);
-      if (forward) {
-        if (i < titleText.length) {
-          i++;
-        } else {
-          forward = false;
-          setTimeout(typeLoop, 1000);
-          return;
-        }
-      } else {
-        if (i > 0) {
-          i--;
-        } else {
-          forward = true;
-        }
+    async function getCurrentUser() {
+      const res = await fetch("/api/user");
+      if (!res.ok) {
+        window.location.href = "/login";
+        return null;
       }
-      setTimeout(typeLoop, 200);
+      return res.json();
     }
 
-    window.addEventListener("load", typeLoop);
+    async function getStatus(userId) {
+      const res = await fetch(`/api/status/${userId}`);
+      if (!res.ok) return { status: "offline" };
+      return res.json();
+    }
+
+    function statusClass(status) {
+      if (!status) return "offline";
+      status = status.toLowerCase();
+      if (status === "online") return "online";
+      if (status === "idle") return "idle";
+      if (status === "dnd" || status === "do_not_disturb") return "dnd";
+      return "offline";
+    }
+
+    function simulateViewCounter() {
+      const viewSpan = document.getElementById("viewCount");
+      let count = Math.floor(Math.random() * 300) + 200; // Start random 200–500
+
+      setInterval(() => {
+        count += Math.floor(Math.random() * 3); // Increment by 0–2
+        viewSpan.textContent = count;
+      }, 1500); // Every 1.5s
+    }
+
+    async function init() {
+      const user = await getCurrentUser();
+      if (!user) return;
+
+      document.getElementById("username").textContent = `${user.username}#${user.discriminator}`;
+      document.getElementById("avatar").src = `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`;
+
+      const statusData = await getStatus(user.id);
+      document.getElementById("statusDot").className = "status-dot " + statusClass(statusData.status);
+
+      simulateViewCounter(); // Start view count
+    }
+
+    init();
   </script>
 </body>
 </html>
