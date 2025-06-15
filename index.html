@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title> </title>
+  <title></title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
     * {
       margin: 0;
@@ -15,8 +15,8 @@
 
     html, body {
       height: 100%;
-      font-family: 'Poppins', sans-serif;
-      background: #;
+      font-family: 'Inter', sans-serif;
+      background: #000;
       color: #e1e1e6;
       display: flex;
       justify-content: center;
@@ -50,38 +50,6 @@
       z-index: -1;
     }
 
-    #intro-screen {
-      position: fixed;
-      inset: 0;
-      background-color: black;
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .intro-text {
-      color: white;
-      font-size: 48px;
-      font-weight: 600;
-      font-family: 'Poppins', sans-serif;
-      letter-spacing: 0.2em;
-      white-space: nowrap;
-      overflow: hidden;
-      border-right: 2px solid white;
-      animation: typing 1.5s steps(8), blink 0.75s step-end infinite;
-    }
-
-    @keyframes typing {
-      from { width: 0 }
-      to { width: 4ch }
-    }
-
-    @keyframes blink {
-      50% { border-color: transparent }
-    }
-
     .profile-card {
       background: #000;
       border-radius: 20px;
@@ -90,7 +58,6 @@
       text-align: center;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
       user-select: none;
-      display: none;
     }
 
     .avatar-wrapper {
@@ -132,12 +99,11 @@
       font-size: 26px;
       margin-bottom: 10px;
       letter-spacing: 0.04em;
-      animation: glow 2s infinite alternate;
     }
 
-    @keyframes glow {
-      from { text-shadow: 0 0 4px #fff; }
-      to { text-shadow: 0 0 12px #0ff; }
+    .views {
+      font-size: 14px;
+      color: #bbb;
     }
 
     .badges {
@@ -213,43 +179,56 @@
       height: 22px;
       filter: brightness(0) invert(1) drop-shadow(0 0 6px white);
     }
+
+    .footer-info {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.85;
+    }
+
+    .footer-info span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: white;
+      background: linear-gradient(to right, #ffffff, #aaa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .footer-info img {
+      width: 16px;
+      height: 16px;
+      filter: brightness(0) invert(1);
+    }
   </style>
 </head>
 <body>
 
-  <!-- Background video -->
   <video id="background-video" autoplay muted loop playsinline>
     <source src="background.mp4" type="video/mp4" />
   </video>
 
-  <!-- Background Audio -->
   <audio id="background-audio" autoplay muted loop>
     <source src="audio.mp3" type="audio/mpeg" />
   </audio>
 
-  <!-- Vignette -->
   <div id="vignette"></div>
 
-  <!-- Intro Screen -->
-  <div id="intro-screen">
-    <div class="intro-text">tor</div>
-  </div>
-
-  <!-- Profile Card -->
   <main class="profile-card">
     <div class="avatar-wrapper">
-      <img
-        class="avatar"
-        src="https://i.pinimg.com/736x/28/35/24/2835246d8785514767b63ad819905e40.jpg"
-        alt="Profile"
-      />
+      <img class="avatar" src="https://i.pinimg.com/736x/28/35/24/2835246d8785514767b63ad819905e40.jpg" alt="Profile" />
       <div class="status-badge" title="Online">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>
       </div>
     </div>
 
-    <h1 class="username">tor</h1>
+    <h1 class="username gradient-text">tor</h1>
     <h2 class="views">10k+ views</h2>
+
     <div class="badges">
       <div class="badge" data-label="CEO"><img src="ceo.png" alt="ceo" /></div>
       <div class="badge" data-label="Booster"><img src="mission.png" alt="Booster" /></div>
@@ -260,57 +239,50 @@
       <div class="badge" data-label="All Badges"><img src="crystal.png" alt="All Badges" /></div>
     </div>
 
-    <p class="tagline">Hey! Im tor, i made this. We're planning on making a portal for you to have this aswell! Stay tuned.</p>
+    <p class="tagline">hey im tor! i made this with the help of my friends lol.</p>
 
     <nav class="social-links">
       <a href="https://discord.gg/DQDzyBdTvm"><img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord" /></a>
       <a href="https://x.com/torluaa"><img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" /></a>
       <a href="https://github.com/torlua"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111432.png" alt="GitHub" /></a>
     </nav>
+
+    <div class="footer-info">
+      <span><img src="https://cdn-icons-png.flaticon.com/512/159/159604.png" alt="views" /> 493</span>
+      <span><img src="https://cdn-icons-png.flaticon.com/512/684/684908.png" alt="location" /> france</span>
+    </div>
   </main>
 
-  <!-- JS Logic -->
   <script>
-    const intro = document.getElementById("intro-screen");
-    const profile = document.querySelector(".profile-card");
-    const audio = document.getElementById("background-audio");
-
-    intro.addEventListener("click", () => {
-      intro.style.display = "none";
-      profile.style.display = "block";
-
-      audio.muted = false;
-      audio.volume = 0.5;
-      audio.play().catch(err => {
-        console.warn("Autoplay failed:", err);
-      });
+    window.addEventListener('DOMContentLoaded', () => {
+      const audio = document.getElementById('background-audio');
+      const enableAudio = () => {
+        audio.muted = false;
+        audio.volume = 0.5;
+        audio.play().catch(err => console.log("Autoplay failed:", err));
+        document.removeEventListener('click', enableAudio);
+      };
+      document.addEventListener('click', enableAudio);
     });
 
-    // Typewriter effect for tab title
-    const titleText = "TORR.BABY/T";
+    const titleText = "T O R";
     let i = 0;
     let forward = true;
-
     function typeLoop() {
       document.title = titleText.slice(0, i);
       if (forward) {
-        if (i < titleText.length) {
-          i++;
-        } else {
+        if (i < titleText.length) i++;
+        else {
           forward = false;
           setTimeout(typeLoop, 1000);
           return;
         }
       } else {
-        if (i > 0) {
-          i--;
-        } else {
-          forward = true;
-        }
+        if (i > 0) i--;
+        else forward = true;
       }
       setTimeout(typeLoop, 200);
     }
-
     window.addEventListener("load", typeLoop);
   </script>
 </body>
