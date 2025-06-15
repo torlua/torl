@@ -17,7 +17,7 @@
       height: 100%;
       font-family: 'Poppins', sans-serif;
       background: black;
-      color: #e1e1e6;
+      color: white;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -71,7 +71,15 @@
       overflow: hidden;
       border-right: 2px solid white;
       animation: typing 1.5s steps(8), blink 0.75s step-end infinite;
-      /* VHS effect added below via global styles */
+      text-shadow:
+        1px 1px 0 #222,
+        -1px -1px 0 #444,
+        1px -1px 0 #333,
+        -1px 1px 0 #555,
+        0 0 3px #888,
+        0 0 5px #222;
+      filter: grayscale(100%) contrast(120%) brightness(110%);
+      animation: vintage-flicker 2s infinite alternate ease-in-out, typing 1.5s steps(8), blink 0.75s step-end infinite;
     }
 
     @keyframes typing {
@@ -83,6 +91,15 @@
       50% { border-color: transparent }
     }
 
+    @keyframes vintage-flicker {
+      0%, 100% {
+        filter: grayscale(100%) contrast(120%) brightness(110%);
+      }
+      50% {
+        filter: grayscale(90%) contrast(110%) brightness(105%);
+      }
+    }
+
     .profile-card {
       background: #000;
       border-radius: 20px;
@@ -92,6 +109,16 @@
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
       user-select: none;
       display: none;
+      color: white;
+      text-shadow:
+        1px 1px 0 #222,
+        -1px -1px 0 #444,
+        1px -1px 0 #333,
+        -1px 1px 0 #555,
+        0 0 3px #888,
+        0 0 5px #222;
+      filter: grayscale(100%) contrast(120%) brightness(110%);
+      animation: vintage-flicker 2s infinite alternate ease-in-out;
     }
 
     .avatar-wrapper {
@@ -128,91 +155,22 @@
       fill: white;
     }
 
-    /* VHS glitch effect on all text */
-    body, body * {
-      position: relative;
-      color: #e1e1e6;
-      text-shadow:
-        0 0 4px #00f,
-        0 0 8px #00f,
-        0 0 12px #00f,
-        0 0 18px #00f,
-        0 0 24px #0ff,
-        0 0 30px #0ff;
-      animation: vhs-glitch 1.5s infinite alternate;
-    }
-
-    /* Username blue glow on black */
     .username {
-      color: #0af;
-      background-color: black;
-      padding: 0 6px;
-      border-radius: 6px;
-      text-shadow:
-        0 0 5px #0af,
-        0 0 10px #0af,
-        0 0 20px #0af,
-        0 0 30px #05a,
-        0 0 40px #05a;
-      animation: glow-blue 3s ease-in-out infinite alternate;
       font-weight: 600;
       font-size: 26px;
       margin-bottom: 10px;
       letter-spacing: 0.04em;
-      /* Remove original glow animation to avoid conflict */
-      animation-name: glow-blue;
-    }
-
-    @keyframes vhs-glitch {
-      0% {
-        text-shadow:
-          1px 0 2px #f00,
-          -1px 0 2px #0ff,
-          0 0 4px #fff;
-      }
-      25% {
-        text-shadow:
-          -1px 0 2px #f00,
-          1px 0 2px #0ff,
-          0 0 6px #fff;
-      }
-      50% {
-        text-shadow:
-          0 1px 3px #f00,
-          0 -1px 3px #0ff,
-          0 0 8px #fff;
-      }
-      75% {
-        text-shadow:
-          1px 1px 4px #f00,
-          -1px -1px 4px #0ff,
-          0 0 6px #fff;
-      }
-      100% {
-        text-shadow:
-          0 0 2px #f00,
-          0 0 4px #0ff,
-          0 0 6px #fff;
-      }
-    }
-
-    @keyframes glow-blue {
-      0%, 100% {
-        text-shadow:
-          0 0 5px #0af,
-          0 0 10px #0af,
-          0 0 20px #0af,
-          0 0 30px #05a,
-          0 0 40px #05a;
-      }
-      50% {
-        text-shadow:
-          0 0 8px #4bf,
-          0 0 16px #4bf,
-          0 0 32px #3af,
-          0 0 40px #38f,
-          0 0 50px #36f;
-      }
+      /* white vintage text style, no glow */
+      color: white;
+      text-shadow:
+        1px 1px 0 #222,
+        -1px -1px 0 #444,
+        1px -1px 0 #333,
+        -1px 1px 0 #555,
+        0 0 3px #888,
+        0 0 5px #222;
+      filter: grayscale(100%) contrast(120%) brightness(110%);
+      animation: vintage-flicker 2s infinite alternate ease-in-out;
     }
 
     .badges {
@@ -233,6 +191,13 @@
       justify-content: center;
       transition: all 0.3s ease;
       filter: drop-shadow(0 0 5px white);
+      text-shadow:
+        1px 1px 0 #222,
+        -1px -1px 0 #444,
+        1px -1px 0 #333,
+        -1px 1px 0 #555,
+        0 0 3px #888,
+        0 0 5px #222;
     }
 
     .badge img {
@@ -253,12 +218,26 @@
       border-radius: 6px;
       font-size: 13px;
       white-space: nowrap;
+      text-shadow:
+        1px 1px 0 #222,
+        -1px -1px 0 #444,
+        1px -1px 0 #333,
+        -1px 1px 0 #555,
+        0 0 3px #888,
+        0 0 5px #222;
     }
 
     .tagline {
       font-size: 14px;
-      color: #bbb;
+      color: white;
       margin-bottom: 24px;
+      text-shadow:
+        1px 1px 0 #222,
+        -1px -1px 0 #444,
+        1px -1px 0 #333,
+        -1px 1px 0 #555,
+        0 0 3px #888,
+        0 0 5px #222;
     }
 
     .social-links {
