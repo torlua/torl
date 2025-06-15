@@ -16,8 +16,11 @@
     html, body {
       height: 100%;
       font-family: 'Poppins', sans-serif;
-      background: #000; /* fallback background */
+      background: #; /* You had an incomplete background value */
       color: #e1e1e6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       overflow: hidden;
     }
 
@@ -55,11 +58,6 @@
       text-align: center;
       box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
       user-select: none;
-      position: relative;
-      z-index: 1;
-      margin: auto;
-      top: 50%;
-      transform: translateY(50%);
     }
 
     .avatar-wrapper {
@@ -121,7 +119,6 @@
       justify-content: center;
       transition: all 0.3s ease;
       filter: drop-shadow(0 0 5px white);
-      position: relative;
     }
 
     .badge img {
@@ -142,7 +139,6 @@
       border-radius: 6px;
       font-size: 13px;
       white-space: nowrap;
-      pointer-events: none;
     }
 
     .tagline {
@@ -179,52 +175,34 @@
       filter: brightness(0) invert(1) drop-shadow(0 0 6px white);
     }
 
-    /* Start Screen Overlay */
+    /* === ADDED CC SCREEN STYLES === */
     #start-screen {
       position: fixed;
       inset: 0;
       background: #000;
+      color: white;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 9999;
-      cursor: pointer;
+      font-size: 72px;
+      font-weight: 900;
       user-select: none;
-      transition: opacity 0.6s ease;
+      cursor: pointer;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
     }
 
-    #start-screen.hidden {
+    #start-screen.hide {
       opacity: 0;
       pointer-events: none;
-    }
-
-    #start-screen h1 {
-      font-size: 8rem;
-      color: white;
-      font-weight: 900;
-      font-family: 'Poppins', sans-serif;
-      text-shadow: 2px 2px 10px #00fff7;
-      letter-spacing: 1rem;
-      margin-bottom: 20px;
-      user-select: none;
-      text-transform: uppercase;
-    }
-
-    #start-screen p {
-      color: #aaa;
-      font-size: 1.4rem;
-      user-select: none;
-      letter-spacing: 0.1rem;
     }
   </style>
 </head>
 <body>
 
-  <!-- Start Screen -->
+  <!-- === CC START SCREEN === -->
   <div id="start-screen">
-    <h1>CC</h1>
-    <p>Click anywhere to start</p>
+    <div class="cc-text">CC</div>
   </div>
 
   <!-- Background video -->
@@ -264,7 +242,7 @@
         <img src="crown.png" alt="Premium" />
       </div>
       <div class="badge" data-label="Donator">
-        <img src="Ipo5WaB.png" alt="Donator" />
+        <img src="Ipo5WaB.png" alt=Donator" />
       </div>
       <div class="badge" data-label="Bug Hunter">
         <img src="NxFGjVx.png" alt="Bug Hunter" />
@@ -280,45 +258,33 @@
     <p class="tagline">hey im tor! i made this with the help of my friends lol.</p>
 
     <nav class="social-links">
-      <a href="https://discord.gg/DQDzyBdTvm" target="_blank" rel="noopener noreferrer">
+      <a href="https://discord.gg/DQDzyBdTvm">
         <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord" />
       </a>
-      <a href="https://x.com/torluaa" target="_blank" rel="noopener noreferrer">
+      <a href="https://x.com/torluaa">
         <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" />
       </a>
-      <a href="https://github.com/torlua" target="_blank" rel="noopener noreferrer">
+      <a href="https://github.com/torlua">
         <img src="https://cdn-icons-png.flaticon.com/512/2111/2111432.png" alt="GitHub" />
       </a>
     </nav>
   </main>
 
-  <!-- Script to enable audio on first user click and hide start screen -->
+  <!-- Script to enable audio on first user click -->
   <script>
     window.addEventListener('DOMContentLoaded', () => {
       const audio = document.getElementById('background-audio');
-      const startScreen = document.getElementById('start-screen');
 
-      const enableAudioAndHideScreen = () => {
+      const enableAudio = () => {
         audio.muted = false;
         audio.volume = 0.5;
         audio.play().catch(err => {
           console.log("Autoplay failed:", err);
         });
-
-        // Fade out start screen
-        startScreen.classList.add('hidden');
-        setTimeout(() => {
-          startScreen.style.display = 'none';
-        }, 600);
-
-        // Unmute video if it was muted (optional)
-        const video = document.getElementById('background-video');
-        video.muted = false;
-
-        document.removeEventListener('click', enableAudioAndHideScreen);
+        document.removeEventListener('click', enableAudio);
       };
 
-      document.addEventListener('click', enableAudioAndHideScreen);
+      document.addEventListener('click', enableAudio);
     });
   </script>
 
@@ -348,6 +314,17 @@
     }
 
     window.addEventListener("load", typeLoop);
+  </script>
+
+  <!-- === CC START SCREEN SCRIPT === -->
+  <script>
+    const startScreen = document.getElementById('start-screen');
+    startScreen.addEventListener('click', () => {
+      startScreen.classList.add('hide');
+      setTimeout(() => {
+        startScreen.style.display = 'none';
+      }, 500);
+    });
   </script>
 
 </body>
