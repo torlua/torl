@@ -1,413 +1,385 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>T</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>tor</title>
 
-  <!-- ✅ Discord Embed Preview (Open Graph tags) -->
-  <meta property="og:title" content="tor." />
-  <meta property="og:description" content="OWNER/CEO • hey there! im tor, aka t. i made this." />
-  <meta property="og:image" content="https://i.pinimg.com/736x/28/35/24/2835246d8785514767b63ad819905e40.jpg" />
-  <meta property="og:url" content="https://torr.baby" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="TORR.BABY" />
-  <meta name="theme-color" content="#000000" />
-  
-  <style> 
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+<!-- OpenGraph -->
+<meta property="og:title" content="tor." />
+<meta property="og:description" content="OWNER/CEO • hey there! im tor, aka t. i made this." />
+<meta property="og:image" content="https://i.pinimg.com/736x/28/35/24/2835246d8785514767b63ad819905e40.jpg" />
+<meta property="og:url" content="https://torr.baby" />
+<meta property="og:type" content="website" />
+<meta name="theme-color" content="#000000">
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-    html, body {
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
-      background: #; /* You had an incomplete background value */
-      color: #e1e1e6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    cursor: url('https://i.pinimg.com/736x/3b/32/e8/3b32e8fe3e7ba9f1ded72b83e9620f74.jpg'), auto;
-    }
+<style>
 
-    #background-video {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      object-fit: cover;
-      filter: brightness(0.3) contrast(0.8);
-      z-index: -2;
-    }
-
-    #background-audio {
-      display: none;
-    }
-
-    #vignette {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.9) 90%);
-      z-index: -1;
-    }
-
-    .profile-card {
-      background: #000;
-      border-radius: 20px;
-      padding: 36px 48px;
-      max-width: 360px;
-      text-align: center;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-      user-select: none;
-    }
-
-    .avatar-wrapper {
-      position: relative;
-      display: inline-block;
-      margin-bottom: 24px;
-    }
-
-    .avatar {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #444;
-    }
-
-    .status-badge {
-      position: absolute;
-      bottom: 4px;
-      right: 4px;
-      background: #4caf50;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      border: 2px solid #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .status-badge svg {
-      width: 12px;
-      height: 12px;
-      fill: white;
-    }
-
-    .username {
-      font-weight: 600;
-      font-size: 26px;
-      margin-bottom: 10px;
-      letter-spacing: 0.04em;
-    }
-
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 12px;
-      margin: 16px 0 24px;
-    }
-
-    .badge {
-      width: 36px;
-      height: 36px;
-      background: transparent;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      filter: drop-shadow(0 0 5px white);
-    }
-
-    .badge img {
-      width: 22px;
-      height: 22px;
-      filter: brightness(0) invert(1) drop-shadow(0 0 6px white);
-    }
-
-    .badge[data-label]:hover::after {
-      content: attr(data-label);
-      position: absolute;
-      bottom: 150%;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #333;
-      color: white;
-      padding: 5px 10px;
-      border-radius: 6px;
-      font-size: 13px;
-      white-space: nowrap;
-    }
-
-    .tagline {
-      font-size: 14px;
-      color: #bbb;
-      margin-bottom: 24px;
-    }
-
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .social-links a {
-      width: 38px;
-      height: 38px;
-      background: transparent;
-      border-radius: 12px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      transition: transform 0.3s ease;
-      filter: drop-shadow(0 0 6px white);
-    }
-
-    .social-links a:hover {
-      transform: scale(1.15);
-    }
-
-    .social-links img {
-      width: 22px;
-      height: 22px;
-      filter: brightness(0) invert(1) drop-shadow(0 0 6px white);
-    }
-
-    /* === ADDED CC SCREEN STYLES === */
-    #start-screen {
-      position: fixed;
-      inset: 0;
-      background: #000;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 72px;
-      font-weight: 900;
-      user-select: none;
-      cursor: pointer;
-      z-index: 9999;
-      transition: opacity 0.5s ease;
-    }
-
-    #start-screen.hide {
-      opacity: 0;
-      pointer-events: none;
-    }
-#volume-wrapper {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid #444;
-  border-radius: 12px;
-  padding: 8px 14px;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+:root{
+--bg:#000;
+--text:#e6e6e6;
+--muted:#bdbdbd;
+--accent:#ffffff;
+--border:#333;
+--card:#000;
+--radius:18px;
 }
 
-#volume-wrapper label {
-  color: #fff;
-  font-size: 14px;
-  letter-spacing: 0.03em;
-  text-shadow: 0 0 4px white;
-  user-select: none;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
 }
 
-#volume-control {
-  -webkit-appearance: none;
-  width: 100px;
-  height: 6px;
-  background: #999;
-  border-radius: 6px;
-  outline: none;
-  transition: background 0.3s;
-  box-shadow: 0 0 5px white;
+html,body{
+height:100%;
+font-family:Poppins,sans-serif;
+background:var(--bg);
+color:var(--text);
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+cursor:url('https://i.pinimg.com/736x/3b/32/e8/3b32e8fe3e7ba9f1ded72b83e9620f74.jpg'),auto;
 }
 
-#volume-control::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  height: 14px;
-  width: 14px;
-  background: white;
-  border-radius: 50%;
-  box-shadow: 0 0 6px white;
-  cursor: pointer;
-  transition: background 0.3s;
+/* Background video */
+
+#bg-video{
+position:fixed;
+inset:0;
+width:100%;
+height:100%;
+object-fit:cover;
+filter:brightness(.35);
+z-index:-2;
 }
 
-#volume-control::-moz-range-thumb {
-  height: 14px;
-  width: 14px;
-  background: white;
-  border-radius: 50%;
-  box-shadow: 0 0 6px white;
-  cursor: pointer;
+/* vignette */
+
+#vignette{
+position:fixed;
+inset:0;
+background:radial-gradient(circle,transparent 40%,rgba(0,0,0,.9) 100%);
+pointer-events:none;
+z-index:-1;
 }
-  </style>
+
+/* Start screen */
+
+#start{
+position:fixed;
+inset:0;
+background:#000;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:70px;
+font-weight:700;
+letter-spacing:6px;
+cursor:pointer;
+z-index:999;
+transition:opacity .5s ease;
+}
+
+#start.hidden{
+opacity:0;
+pointer-events:none;
+}
+
+/* Card */
+
+.card{
+background:var(--card);
+border-radius:var(--radius);
+padding:40px 46px;
+max-width:360px;
+text-align:center;
+box-shadow:0 15px 40px rgba(0,0,0,.7);
+backdrop-filter:blur(6px);
+}
+
+/* Avatar */
+
+.avatar-wrap{
+position:relative;
+margin-bottom:22px;
+}
+
+.avatar{
+width:130px;
+height:130px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid var(--border);
+}
+
+/* Online status */
+
+.status{
+position:absolute;
+bottom:6px;
+right:6px;
+width:22px;
+height:22px;
+background:#4caf50;
+border-radius:50%;
+border:2px solid black;
+}
+
+/* Name */
+
+.name{
+font-size:26px;
+font-weight:600;
+letter-spacing:.04em;
+}
+
+.role{
+font-size:14px;
+color:var(--muted);
+margin-top:4px;
+}
+
+/* Badges */
+
+.badges{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+gap:10px;
+margin:18px 0 22px;
+}
+
+.badge{
+width:34px;
+height:34px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:8px;
+position:relative;
+transition:.25s;
+}
+
+.badge img{
+width:20px;
+height:20px;
+filter:brightness(0) invert(1);
+}
+
+.badge:hover{
+transform:scale(1.15);
+}
+
+/* Tooltip */
+
+.badge:hover::after{
+content:attr(data-label);
+position:absolute;
+bottom:140%;
+background:#222;
+padding:4px 9px;
+border-radius:5px;
+font-size:12px;
+white-space:nowrap;
+}
+
+/* Bio */
+
+.bio{
+font-size:14px;
+color:var(--muted);
+margin-bottom:24px;
+line-height:1.4;
+}
+
+/* Social links */
+
+.links{
+display:flex;
+justify-content:center;
+gap:18px;
+}
+
+.links a{
+width:36px;
+height:36px;
+display:flex;
+align-items:center;
+justify-content:center;
+transition:.25s;
+}
+
+.links img{
+width:20px;
+height:20px;
+filter:brightness(0) invert(1);
+}
+
+.links a:hover{
+transform:scale(1.2);
+}
+
+/* Volume */
+
+.volume{
+position:fixed;
+bottom:22px;
+right:22px;
+display:flex;
+align-items:center;
+gap:10px;
+background:rgba(0,0,0,.6);
+padding:8px 12px;
+border-radius:10px;
+border:1px solid var(--border);
+backdrop-filter:blur(6px);
+}
+
+.volume input{
+width:90px;
+}
+
+</style>
 </head>
+
 <body>
 
-  <!-- === CC START SCREEN === -->
-  <div id="start-screen">
-    <div class="cc-text">t</div>
-  </div>
+<div id="start">t</div>
 
-  <!-- Background video -->
-  <video id="background-video" autoplay muted loop playsinline>
-    <source src="background.mp4" type="video/mp4" />
-  </video>
+<video id="bg-video" autoplay muted loop playsinline>
+<source src="background.mp4" type="video/mp4">
+</video>
 
-  <!-- Background Audio (starts muted for autoplay compliance) -->
-  <audio id="background-audio" autoplay muted loop>
-    <source src="audio.mp3" type="audio/mpeg" />
-  </audio>
+<audio id="music" loop>
+<source src="audio.mp3" type="audio/mpeg">
+</audio>
 
-  <div id="vignette"></div>
+<div id="vignette"></div>
 
-  <main class="profile-card">
-    <div class="avatar-wrapper">
-      <img
-        class="avatar"
-        src="https://i.pinimg.com/736x/28/35/24/2835246d8785514767b63ad819905e40.jpg"
-        alt="Profile"
-      />
-      <div class="status-badge" title="Online">
-        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="6"/></svg>
-      </div>
-    </div>
+<main class="card">
 
-    <h1 class="username">tor</h1>
-    <h2 class="views">OWNER/CEO</h2>
-    <div class="badges">
-      <div class="badge" data-label="CEO">
-        <img src="ceo.png" alt="ceo" />
-      </div>
-      <div class="badge" data-label="Booster">
-        <img src="mission.png" alt="Booster" />
-      </div>
-      <div class="badge" data-label="Premium">
-        <img src="crown.png" alt="Premium" />
-      </div>
-      <div class="badge" data-label="Donator">
-        <img src="Ipo5WaB.png" alt=Donator" />
-      </div>
-      <div class="badge" data-label="Bug Hunter">
-        <img src="NxFGjVx.png" alt="Bug Hunter" />
-      </div>
-      <div class="badge" data-label="Administrator">
-        <img src="zWXn6xL.png" alt="Admin" />
-      </div>
-      <div class="badge" data-label="All Badges">
-        <img src="crystal.png" alt="All Badges" />
-      </div>
-    </div>
-
-    <p class="tagline">hey there! im tor, aka t i made this. my team and i are working on a portal so you can have your very own.</p>
-
-    <nav class="social-links">
-      <a href="https://discord.gg/C7CnSMrsmG">
-        <img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png" alt="Discord" />
-      </a>
-      <a href="https://x.com/torluaa">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733579.png" alt="Twitter" />
-      </a>
-      <a href="https://github.com/torlua">
-        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111432.png" alt="GitHub" />
-      </a>
-    </nav>
-  </main>
-
-  <!-- Script to enable audio on first user click -->
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const audio = document.getElementById('background-audio');
-
-      const enableAudio = () => {
-        audio.muted = false;
-        audio.volume = 0.5;
-        audio.play().catch(err => {
-          console.log("Autoplay failed:", err);
-        });
-        document.removeEventListener('click', enableAudio);
-      };
-
-      document.addEventListener('click', enableAudio);
-    });
-  </script>
-
-  <script>
-    const titleText = "T O R R . B A B Y / T ";
-    let i = 0;
-    let forward = true;
-
-    function typeLoop() {
-      document.title = titleText.slice(0, i);
-      if (forward) {
-        if (i < titleText.length) {
-          i++;
-        } else {
-          forward = false;
-          setTimeout(typeLoop, 1000); // Pause at full text
-          return;
-        }
-      } else {
-        if (i > 0) {
-          i--;
-        } else {
-          forward = true;
-        }
-      }
-      setTimeout(typeLoop, 200);
-    }
-
-    window.addEventListener("load", typeLoop);
-  </script>
-
-  <!-- === CC START SCREEN SCRIPT === -->
-  <script>
-    const startScreen = document.getElementById('start-screen');
-    startScreen.addEventListener('click', () => {
-      startScreen.classList.add('hide');
-      setTimeout(() => {
-        startScreen.style.display = 'none';
-      }, 500);
-    });
-  </script>
-</main>
-
-<!-- ✅ Volume controller HTML -->
-<div style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: flex; align-items: center; gap: 8px; font-family: sans-serif;">
-  <label for="volume-control" style="color: white; font-size: 14px;">Volume</label>
-  <input type="range" id="volume-control" min="0" max="1" step="0.01" value="0.5" style="width: 100px;">
+<div class="avatar-wrap">
+<img class="avatar" src="https://i.pinimg.com/736x/28/35/24/2835246d8785514767b63ad819905e40.jpg">
+<div class="status"></div>
 </div>
 
-<!-- ✅ Volume control script -->
-<script>
-  const volumeSlider = document.getElementById("volume-control");
-  const audio = document.getElementById("background-audio");
+<h1 class="name">tor</h1>
+<div class="role">OWNER / CEO</div>
 
-  volumeSlider.addEventListener("input", () => {
-    audio.volume = volumeSlider.value;
-  });
+<div class="badges">
+
+<div class="badge" data-label="CEO">
+<img src="ceo.png">
+</div>
+
+<div class="badge" data-label="Booster">
+<img src="mission.png">
+</div>
+
+<div class="badge" data-label="Premium">
+<img src="crown.png">
+</div>
+
+<div class="badge" data-label="Donator">
+<img src="Ipo5WaB.png">
+</div>
+
+<div class="badge" data-label="Bug Hunter">
+<img src="NxFGjVx.png">
+</div>
+
+<div class="badge" data-label="Administrator">
+<img src="zWXn6xL.png">
+</div>
+
+<div class="badge" data-label="All Badges">
+<img src="crystal.png">
+</div>
+
+</div>
+
+<p class="bio">
+hey there! im tor, aka t. i made this. my team and i are working on a portal so you can have your very own.
+</p>
+
+<nav class="links">
+
+<a href="https://discord.gg/C7CnSMrsmG">
+<img src="https://cdn-icons-png.flaticon.com/512/3670/3670157.png">
+</a>
+
+<a href="https://x.com/torluaa">
+<img src="https://cdn-icons-png.flaticon.com/512/733/733579.png">
+</a>
+
+<a href="https://github.com/torlua">
+<img src="https://cdn-icons-png.flaticon.com/512/2111/2111432.png">
+</a>
+
+</nav>
+
+</main>
+
+<div class="volume">
+<label>Volume</label>
+<input type="range" min="0" max="1" step="0.01" value="0.5" id="vol">
+</div>
+
+<script>
+
+/* start screen */
+
+const start = document.getElementById("start")
+const music = document.getElementById("music")
+
+start.onclick = () =>{
+start.classList.add("hidden")
+
+music.volume=.5
+music.play().catch(()=>{})
+
+setTimeout(()=>start.remove(),500)
+}
+
+/* volume */
+
+document.getElementById("vol").oninput = e=>{
+music.volume = e.target.value
+}
+
+/* animated title */
+
+const text="T O R R . B A B Y / T "
+let i=0
+let forward=true
+
+function animateTitle(){
+
+document.title=text.slice(0,i)
+
+if(forward){
+i++
+if(i>=text.length){
+forward=false
+setTimeout(animateTitle,900)
+return
+}
+}else{
+i--
+if(i<=0) forward=true
+}
+
+setTimeout(animateTitle,150)
+
+}
+
+animateTitle()
+
 </script>
-  
+
 </body>
 </html>
